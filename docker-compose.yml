@@ -15,5 +15,14 @@ services:
     volumes:
       - Postgres:/var/lib/postgresql/data
     tty: true
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto_mqtt_broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./MqttBroker/config:/mosquitto/config
+      - ./MqttBroker/data:/mosquitto/data
+      - ./MqttBroker/log:/mosquitto/log
 volumes:
   Postgres:

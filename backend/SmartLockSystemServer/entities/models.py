@@ -21,9 +21,10 @@ class Lock(db_base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
     name = Column(String, nullable=False)
-    pin = Column(Integer, nullable=False)
+    pin = Column(String, nullable=False)
     rfid_key = Column(String, nullable=False)
     owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete='SET NULL'),nullable=False)
+    locked = Column(Boolean, nullable=False)
 
 class Face(db_base):
     __tablename__ = "faces"

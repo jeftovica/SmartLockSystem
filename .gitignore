@@ -552,3 +552,4 @@ backend/SmartLockSystemServer/.idea/modules.xml
 backend/SmartLockSystemServer/.idea/misc.xml
 backend/SmartLockSystemServer/.idea/inspectionProfiles/profiles_settings.xml
 backend/SmartLockSystemServer/test_main.http
+backend/SmartLockSystemServer/log.txt
