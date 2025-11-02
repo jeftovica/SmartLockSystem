@@ -25,9 +25,9 @@ int value = 0;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-char ssid[] = "Jeftovic-2.4G";
-char pass[] = "03262007";
-char mqtt_server[] = "192.168.100.8"; //ipconfig in cmd -> wlan ipv4
+char ssid[] = "Vukašin's iPhone";
+char pass[] = "nemozcrnje";
+char mqtt_server[] = "192.168.56.1"; //ipconfig in cmd -> wlan ipv4
 char device_id[] ="b71420d0-0e9a-45a8-b668-0d9a6ffacba4";
 String tag_pin = "22827021";
 String pin_input = "";
@@ -105,6 +105,9 @@ void loop() {
       else{
         if(character=="#"){
           lockLock();
+        }
+        else if(character=="*"){
+          sendCapture();
         }
       }
       
@@ -200,6 +203,15 @@ void lockLock() {
   client.publish("FromLock", msg.c_str());
 }
 
+void sendCapture() {
+  JsonDocument doc;
+  doc["action"] = "capture";
+  String msg = "";
+  serializeJson(doc, msg);
+  Serial.println(msg);
+  client.publish("FromLock", msg.c_str());
+}
+
 void messageCallback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -220,7 +232,7 @@ void messageCallback(char* topic, byte* payload, unsigned int length) {
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
-    String clientId = "ESP8266Client-";
+    String clientId = "ESP82667Client-";
     clientId += String(random(0xffff), HEX);
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
@@ -243,6 +255,7 @@ void displayText(String text) {
   display.println(text);
   display.display();
 }
+
 
 String decodeSignal(uint16_t signal) {
   switch (signal) {

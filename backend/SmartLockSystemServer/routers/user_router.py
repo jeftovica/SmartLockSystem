@@ -1,11 +1,8 @@
 from datetime import timedelta
 from typing import Annotated
 
-import jwt
 from fastapi import APIRouter, Depends, HTTPException
-from jwt import InvalidTokenError
 from sqlalchemy.orm import Session
-from starlette import status
 
 from config import setting
 from dependencies.middleware import get_current_user
@@ -25,7 +22,7 @@ async def get_user(db:Session = Depends(get_db_session)):
     user = db.query(models.User).filter(models.User.id == 1).first()
     return {"name": user.name, "id": user.id}
 
-@user_router.post(user_router_path)
+@user_router.post(user_router_path + "/register")
 async def create_user(new_user:schemas.NewUser, db:Session = Depends(get_db_session)):
     user = user_service.get_user_by_email(db, new_user.email)
     if user:

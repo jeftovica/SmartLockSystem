@@ -1,6 +1,8 @@
 import uuid
 
 from sqlalchemy.orm import foreign, relationship, declarative_base
+import datetime
+from sqlalchemy import DateTime
 
 
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, text, ForeignKey, UUID
@@ -34,3 +36,11 @@ class Face(db_base):
     face_number = Column(String, nullable=False)
     face_value = Column(String, nullable=False)
     lock_id = Column(UUID(as_uuid=True), ForeignKey("locks.id", ondelete='SET NULL'),nullable=False)
+
+class LockLog(db_base):
+    __tablename__ = "lock_logs"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
+    lock_id = Column(UUID(as_uuid=True), ForeignKey("locks.id", ondelete="CASCADE"), nullable=False)
+    action = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
